@@ -2,7 +2,7 @@
 #define TREE_H
 
 typedef struct tree {
-    char info;
+    int info;
     struct tree *left;
     struct tree *right;
     struct tree *parent;

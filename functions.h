@@ -2,42 +2,47 @@
 #include <stdlib.h>
 #include "tree.h"
 
-tree *tree_init (tree *root, int info) { //инициализируем корень древа
-    tree *temp = malloc(sizeof(tree)); //выделяем памяттттт
+tree* tree_init (tree** root, int info) { //инициализируем корень древа
+    tree *temp = (tree*)(malloc(sizeof(tree))); //выделяем памяттттт
     temp->info = info; // присваиваем значение корню
     temp->parent = NULL; // обнуляем родителя
     temp->right = NULL; // обнуляем детину правую
     temp->left = NULL; // обнуляем детину левую
-    root = temp;
-    return root;
+    *root = temp;
+    return temp;
 }
 
-tree *branch_add (tree *root, int info) { // добавим детин
-    tree *root_2 = root, *root_3 = NULL; // не забудем адрес родителя.....
-    tree *temp = malloc(sizeof(tree)); // выделим память
+tree* branch_add (tree *root, int info) { // добавим детин
+    tree *parent = root; // не забудем адрес родителя.....
+    tree *temp = (tree*)(malloc(sizeof(tree))); // выделим память
     temp->info = info; // присваиваем значение
-    while(root_2 != NULL) { // ищем позицию для вставки
-        root_3 = root_2;
-        if(info < root_2->info) {
-            root_2 = root_2->left;
+    while(parent != NULL) { // ищем позицию для вставки
+        if(info < parent->info) {
+            if (!parent->left) {
+                break;
+            }
+            parent = parent->left;
         }
         else {
-            root_2 = root_2->right;
+            if (!parent->right) {
+                break;
+            }
+            parent = parent->right;
         }
     }
-    temp->parent = root_3; // присвоили указатель на родителя, который нашли выше
+    temp->parent = parent; // присвоили указатель на родителя, который нашли выше
     temp->left = NULL; //обнуляем детин
     temp->right = NULL;
-    if(info < root_3->info) { //вставляем узел в найденное место
-        root_3->left = temp;
+    if(info < parent->info) { //вставляем узел в найденное место
+        parent->left = temp;
     }
     else {
-        root_3->right = temp;
+        parent->right = temp;
     }
     return root;
 }
 
-tree *branch_search (tree *root, int info) { //поиск элэмента
+tree* branch_search (tree *root, int info) { //поиск элэмента
     if((root == NULL) || (root->info == info)) {
         return root; //если дерево пусто, либо его данные равны искомым, возвращаем указатель на дерево
     }
@@ -49,7 +54,7 @@ tree *branch_search (tree *root, int info) { //поиск элэмента
     }
 }
 
-tree *branch_min (tree *root) { // поиск минимального элемента
+tree* branch_min (tree *root) { // поиск минимального элемента
     tree *min = root;
     while(min->left != NULL) {
         min = min->left;
@@ -57,7 +62,7 @@ tree *branch_min (tree *root) { // поиск минимального элем�
     return min;
 }
 
-tree *branch_max (tree *root) { // поиск максимального элемента 
+tree* branch_max (tree *root) { // поиск максимального элемента 
     tree *max = root;
     while(max->right != NULL) {
         max = max->right;
@@ -65,11 +70,11 @@ tree *branch_max (tree *root) { // поиск максимального эле�
     return max;
 }
 
-tree *branch_find_following (tree *root) { // поиск следующего по значению за данным элементом элемента
+tree* branch_find_following (tree *root) { // поиск следующего по значению за данным элементом элемента
     return branch_min(root->right);
 }
 
-void *branch_delete (tree *root, int info) { // удаление элемента, если одинаковых элементов в дереве нет
+void branch_delete (tree *root, int info) { // удаление элемента, если одинаковых элементов в дереве нет
     tree  *temp_1 = NULL, *temp_2 = NULL;
     temp_1 = branch_search(root, info); // ищем удаляемый узел
     
@@ -119,13 +124,15 @@ void *branch_delete (tree *root, int info) { // удаление элемент�
     }
 }
 
-void *tree_print (tree *root) { // печать древа
+void tree_print (tree *root, int level) { // печать древа
+    for (int i = 0; i < level; i++) { printf(" "); }
     if(root == NULL) {
-        return 0;
+        printf("NULL \n");
+        return;
     }
     else {
-        printf("%c \n", root->info);
+        printf("%d \n", root->info);
     }
-    tree_print(root->left);
-    tree_print(root->right);
+    tree_print(root->left, level+1);
+    tree_print(root->right, level+1);
 }
