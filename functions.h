@@ -74,7 +74,7 @@ tree* branch_find_following (tree *root) { // поиск следующего п
     return branch_min(root->right);
 }
 
-void branch_delete (tree *root, int info) { // удаление элемента, если одинаковых элементов в дереве нет
+void branch_delete (tree* root, int info) { // удаление элемента, если одинаковых элементов в дереве нет
     tree  *temp_1 = NULL, *temp_2 = NULL;
     temp_1 = branch_search(root, info); // ищем удаляемый узел
     
@@ -111,7 +111,7 @@ void branch_delete (tree *root, int info) { // удаление элемента
         free(temp_1);
     }
 
-    else { // еусли все детины на месте
+    else { // если все детины на месте
         temp_2 = branch_find_following(temp_1);
         temp_1->info = temp_2->info;
         if(temp_2->right == NULL) { //пользуемся законами логики

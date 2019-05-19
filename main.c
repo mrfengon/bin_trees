@@ -10,7 +10,7 @@ int main() {
     scanf("%d", &inf_root);
     tree_init(&root, inf_root);
     while(temp != 5){
-        printf("\n1 - add branch, 2 - print tree, 3 - delete branch, 4 - func, 5 - exit\n");
+        printf("\n1 - add branch, 2 - print tree, 3 - delete branch, 4 - func, 5 - exit\n\n");
         scanf("%d", &temp);
         if(temp == 1) {
             printf("\nenter info: ");
