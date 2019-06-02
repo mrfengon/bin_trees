@@ -136,3 +136,20 @@ void tree_print (tree *root, int level) { // печать древа
     tree_print(root->left, level+1);
     tree_print(root->right, level+1);
 }
+
+int tree_count_leaves(tree* root) {
+    if (!root) {
+        return 0;
+    }
+    if (!(root->left) && !(root->right)) {
+        return 1;
+    }
+    int count = 0;
+    if (root->left) {
+        count += tree_count_leaves(root->left);
+    }
+    if (root->right) {
+        count += tree_count_leaves(root->right);
+    }
+    return count;
+}
