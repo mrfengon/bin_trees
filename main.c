@@ -25,6 +25,9 @@ int main() {
             scanf("%d", &inf_branch_del);
             branch_delete(root, inf_branch_del);
         }
+        else if(temp == 4) {
+            printf("%d\n", leaves_count(root, 0));
+        }
         else {
             return 0;
         }
