@@ -113,12 +113,22 @@ void branch_delete (tree* root, int info) { // удаление элемента
 
     else { // если все детины на месте
         temp_2 = branch_find_following(temp_1);
-        temp_1->info = temp_2->info;
+        temp_1->info = temp_2->info; 
         if(temp_2->right == NULL) { //пользуемся законами логики
-            temp_2->parent->left = NULL;
+            if(temp_1->right == temp_2) {
+                temp_1->right = NULL;
+            }
+            else {
+                temp_2->parent->left = NULL;
+            }
         }
         else {
-            temp_2->parent->left = temp_2->right;
+            if(temp_1->right == temp_2) {
+                temp_1->right = temp_2->right;
+            }
+            else {
+                temp_2->parent->left = temp_2->right;
+            }
         }
         free(temp_2);
     }
